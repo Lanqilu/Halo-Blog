@@ -5,8 +5,17 @@
 </template>
 
 <style>
+*{
+  padding: 0;
+  margin: 0;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
 #app {
-  max-width: 1020px;
-  margin: 0 auto;
+
 }
 </style>

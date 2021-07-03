@@ -10,6 +10,9 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import './permission.js' // 路由拦截
 
+import './lib/jquery.min'
+import './lib/swiper-bundle.min'
+// import './lib/recommendCard'
 
 // use
 Vue.use(mavonEditor)

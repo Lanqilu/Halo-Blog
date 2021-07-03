@@ -36,7 +36,10 @@ public class AccountController {
     @PostMapping("/login")
     public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response) {
 
-        User user = userService.getOne(new QueryWrapper<User>().eq("username", loginDto.getUsername()));
+//        User user = userService.getOne(new QueryWrapper<User>().eq("username", loginDto.getUsername()));
+//        Assert.notNull(user, "用户不存在");
+
+        User user = userService.getOne(new QueryWrapper<User>().eq("email", loginDto.getEmail()));
         Assert.notNull(user, "用户不存在");
 
         // 密码是否正确
@@ -49,6 +52,8 @@ public class AccountController {
 
         response.setHeader("Authorization",jwt);
         response.setHeader("Access-control-Expose-Headers","Authorization");
+
+//        System.out.println("用户"+user.getUsername()+"登录成功");
 
 
         return Result.success(MapUtil.builder()

@@ -1,33 +1,57 @@
 <template>
-  <div class="m-content">
-    <h3>HALO博客</h3>
-    <div class="block">
-      <el-avatar :size="50" :src="user.avatar"></el-avatar>
-    </div>
-    <div>{{ user.username }}</div>
-    <div class="m-maction">
-      <span>
-        <el-link type="primary" href="/blogs">主页</el-link>
-      </span>
+  <div class="m-header">
 
-      <el-divider direction="vertical"></el-divider>
-      <span>
-        <el-link type="success" href="/blog/add">发表文章</el-link>
-      </span>
+    <div class="nav-link">
 
-      <el-divider direction="vertical"></el-divider>
-      <span v-show="!hasLogin">
-        <el-link type="info" href="/login">登录</el-link>
-      </span>
-      <span v-show="hasLogin">
-        <el-link type="warning" @click="logout()">退出</el-link>
-      </span>
+      <ul class="nav-link-ul">
+        <li class="nav-link-item">
+          <a href="/blogs">HALO</a>
+        </li>
+        <li class="nav-link-item">
+          <a href="/blog/add">发表文章</a>
+        </li>
+        <li class="nav-link-item">
+          <a href="/blog/add">归档</a>
+        </li>
+        <li class="nav-link-item">
+          <a href="/blog/add">标签</a>
+        </li>
+        <li class="nav-link-item">
+          <a href="/blog/add">友情链接</a>
+        </li>
+      </ul>
     </div>
+
+    <div class="nav-search-box">
+      <div class="search-box">
+        搜索框
+      </div>
+    </div>
+
+    <div class="nav-user-center">
+      <div class="user-avatar" v-show="hasLogin">
+        <el-avatar :size="30" :src="user.avatar"></el-avatar>
+      </div>
+      <div>{{ user.username }}</div>
+    </div>
+
+    <div v-show="!hasLogin">
+      <a href="/login">登录</a>
+    </div>
+
+    <div v-show="hasLogin">
+      <a @click="logout()">退出</a>
+    </div>
+
+
   </div>
 </template>
 
 <script>
+import Login from "@/views/Login_1";
+
 export default {
+  components: {Login},
   data() {
     return {
       user: {
@@ -55,6 +79,7 @@ export default {
     },
   },
   created() {
+
     if (this.$store.getters.getUser.username) {
       this.user.username = this.$store.getters.getUser.username;
       this.user.avatar = this.$store.getters.getUser.avatar;
@@ -65,14 +90,56 @@ export default {
 };
 </script>
 
-<style>
-.m-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
+<style lang="scss">
+
+.m-header {
+  box-sizing: border-box;
+  padding: 10px 24px;
+  line-height: 30px;
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.8);
+  color: #f5f5f7;
 }
 
-.m-maction {
-  margin: 10px;
+.nav-user-center{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  .user-avatar{
+    span{
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+    padding-right: 10px ;
+  }
 }
+
+.nav-link {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  ul,li{ padding:0;margin:0;list-style:none}
+
+  .nav-link-ul {
+    height: 36px;
+    display: flex;
+    align-items: center;
+
+    .nav-link-item {
+      margin-right: 12px;
+    }
+  }
+
+  div {
+    margin-right: 20px;
+  }
+}
+
+
 </style>

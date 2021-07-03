@@ -2,7 +2,7 @@
   <div>
     <Header></Header>
     <div class="block">
-      <el-timeline>
+      <el-timeline class = "m-content">
         <el-timeline-item
             :timestamp="blog.created"
             placement="top"
@@ -11,9 +11,9 @@
         >
           <el-card>
             <h4>
-              <router-link :to="{name: 'BlogDetail', params: {blogId: blog.id}}">{{blog.title}}</router-link>
+              <router-link :to="{name: 'BlogDetail', params: {blogId: blog.id}}">{{ blog.title }}</router-link>
             </h4>
-            <p>{{blog.description}}</p>
+            <p>{{ blog.description }}</p>
           </el-card>
         </el-timeline-item>
       </el-timeline>
@@ -27,15 +27,17 @@
         :total="total"
         @current-change="page"
     ></el-pagination>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Header from "../components/Header.vue";
+import Footer from "@/components/Footer";
 
 export default {
   name: "Blog.vue",
-  components: {Header},
+  components: {Footer, Header},
   data() {
     return {
       blogs: {},
@@ -65,6 +67,10 @@ export default {
 <style>
 .m-pagination {
   text-align: center;
+  margin: 0 auto;
+}
+.m-content{
+  max-width: 908px;
   margin: 0 auto;
 }
 </style>

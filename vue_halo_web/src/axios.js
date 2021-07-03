@@ -5,7 +5,7 @@ import router from "./router";
 
 axios.defaults.baseURL = 'http://localhost:8088'
 axios.interceptors.request.use(config => {
-    console.log("前置拦截")
+    // console.log("前置拦截")
     // 可以统一设置请求头
     // console.log(config)
     return config
@@ -13,10 +13,10 @@ axios.interceptors.request.use(config => {
 
 axios.interceptors.response.use(response => {
         const res = response.data;
-
-        console.log(res)
-
-        console.log("后置拦截")
+        //
+        // console.log(res)
+        //
+        // console.log("后置拦截")
 
         if (res.code === 200) {
             // 当结果的code是否为200的情况
