@@ -1,0 +1,29 @@
+
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/vueblog?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: mogu2018
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+
+server:
+  port: 8088
+
+# shiro
+shiro-redis:
+  enable: true
+  redis-manager:
+    host: redis:6379
+    password: mogu2018
+
+# JWT
+halo:
+  jwt:
+    # 加密密钥
+    secret: halo324567877
+    # token 有效期 7天 单位秒
+    expire: 604800
+    header: Authorization
