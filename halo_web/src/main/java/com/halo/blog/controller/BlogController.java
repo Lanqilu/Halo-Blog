@@ -3,6 +3,7 @@ package com.halo.blog.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.halo.blog.util.ShiroUtil;
+import io.swagger.annotations.Api;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.util.Assert;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
  * @since 2021-07-02
  */
 @RestController
+@Api(tags = "博客接口")
 public class BlogController {
 
     @Autowired

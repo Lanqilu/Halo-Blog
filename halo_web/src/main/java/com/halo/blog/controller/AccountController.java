@@ -8,6 +8,7 @@ import com.halo.blog.common.dto.LoginDto;
 import com.halo.blog.entity.User;
 import com.halo.blog.service.UserService;
 import com.halo.blog.util.JwtUtil;
+import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  * @description
  */
 @RestController
+@Api(tags = "用户登录退出 API 接口")
 public class AccountController {
 
     @Autowired

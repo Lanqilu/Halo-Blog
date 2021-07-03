@@ -23,6 +23,8 @@
 
     <modules>
         <module>halo_web</module>
+        <module>halo_common</module>
+        <module>halo_admin</module>
     </modules>
 
 </project>
