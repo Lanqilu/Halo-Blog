@@ -23,8 +23,16 @@
     </div>
 
     <div class="nav-search-box">
+      <label class="SearchBar-input Input-wrapper Input-wrapper--grey">
+        <input type="text" value="">
+
+        <button aria-label="搜索" type="button" class="Button SearchBar-searchButton Button--primary">
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+
+      </label>
       <div class="search-box">
-        搜索框
+
       </div>
     </div>
 
@@ -90,14 +98,14 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
+
 
 .m-header {
   box-sizing: border-box;
   padding: 10px 24px;
   line-height: 30px;
   position: relative;
-  margin-bottom: 20px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -105,17 +113,19 @@ export default {
   color: #f5f5f7;
 }
 
-.nav-user-center{
+.nav-user-center {
   display: flex;
   justify-content: center;
   align-content: center;
-  .user-avatar{
-    span{
+
+  .user-avatar {
+    span {
       display: flex;
       justify-content: center;
       align-content: center;
     }
-    padding-right: 10px ;
+
+    padding-right: 10px;
   }
 }
 
@@ -124,7 +134,11 @@ export default {
   justify-content: center;
   align-content: center;
 
-  ul,li{ padding:0;margin:0;list-style:none}
+  ul, li {
+    padding: 0;
+    margin: 0;
+    list-style: none
+  }
 
   .nav-link-ul {
     height: 36px;

@@ -163,7 +163,6 @@ export default {
   grid-template-rows: 1fr auto;
   grid-template-areas: "main" "footer";
   overflow-x: hidden;
-  background: #ffffff;
   min-height: 60vh;
   font-family: "Open Sans", sans-serif;
 }
@@ -198,7 +197,7 @@ export default {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-gap: 4rem;
-  padding: 6rem;
+  padding: 5.5rem;
   background: var(--footer-background);
 }
 .m-footer .footer .content a, .m-footer .footer .content p {
