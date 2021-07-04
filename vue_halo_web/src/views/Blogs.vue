@@ -1,14 +1,15 @@
 <template>
   <div>
     <Header></Header>
-
     <div class="halo-body">
       <div class="halo-left-content">
         <!-- 幻灯片 -->
         <div class="halo-carousel">
           <el-carousel height="300px" interval="3500">
-            <el-carousel-item v-for="item in 4" :key="item">
-
+            <el-carousel-item v-for="item in blogs" :key="item.blogId">
+              <img class="post_bg"
+                   :src=item.blogCover
+                   :alt=item.title>
             </el-carousel-item>
           </el-carousel>
         </div>
@@ -21,15 +22,17 @@
           >
             <div class="halo-blog-img">
               <img class="post_bg"
-                   src="https://cdn.jsdelivr.net/gh/halo-blog/cdn-blog-img-c@master/wallhaven-g8reee.4ts0wc1e2740.png"
-                   alt="图">
+                   :src=item.blogCover
+                   :alt=item.title>
+              <p class="halo-blog-created">{{ item.created }}</p>
             </div>
             <div class="halo-blog-content">
               <h3 class="halo-blog-title">
                 <router-link :to="{name: 'BlogDetail', params: {blogId: item.id}}">{{ item.title }}</router-link>
               </h3>
               <p class="halo-blog-text">{{ item.description }}</p>
-              <p class="halo-blog-created">{{ item.created }}</p>
+
+
             </div>
 
           </div>
@@ -46,31 +49,33 @@
       </div>
 
       <div class="halo-right-content">
-        <div class="halo-card">
-          <div class="userInfo"></div>
-          <div class="inform"></div>
-          <div class="inform"></div>
-          <div class="inform"></div>
-          <div class="inform"></div>
+        <div>
+          <UserInfo></UserInfo>
+        </div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div class="halo-sticky">
+
         </div>
       </div>
     </div>
 
-
-    <Footer></Footer>
+    <!--    <Footer></Footer>-->
 
   </div>
 
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Swiper from "@/components/MySwiper";
+import UserInfo from "@/components/UserInfo";
 
 export default {
   name: "Blog.vue",
-  components: {Footer, Header, Swiper},
+  components: {UserInfo, Footer, Header, Swiper},
   data() {
     return {
       currentDate: new Date(),
@@ -109,8 +114,7 @@ export default {
   grid-gap: 2%;
 
 
-
-  .halo-left-content{
+  .halo-left-content {
 
     .halo-blogs-box {
       display: flex;
@@ -124,21 +128,34 @@ export default {
       .blogs {
         margin-top: 20px;
         border-radius: 12px;
-        box-shadow: 0 3px 8px 6px rgba(7,17,27,0.06);
+        box-shadow: 0 3px 8px 6px rgba(7, 17, 27, 0.06);
         background: rgba(255, 255, 255, 0.9);
 
         .halo-blog-content {
+
+          display: flex;
+          flex-direction: column;
+          padding: 30px;
+
           .halo-blog-title {
             font-weight: 700;
             line-height: 1.6;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+
           }
 
-          display: flex;
-          margin: 0 auto;
-          flex-direction: column;
-          justify-content: center;
-          align-content: center;
+          .halo-blog-text {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            color: rgba(141, 140, 140, .856);
+            font-size: .9rem;
+            line-height: 160%;
+          }
+
+
         }
 
         min-height: 100px;
@@ -152,8 +169,19 @@ export default {
           padding: 0;
           margin: 0;
 
+          .halo-blog-created {
+            position: absolute;
+            z-index: 1;
+            transform: translateY(-40px) translateX(10px);
+            background: #ffffff;
+            border-radius: 3px;
+            width: 100px;
+            text-align: center;
+            opacity: 0.8;
+          }
+
           img {
-            width: 350px;
+            width: 330px;
             height: 100%;
             padding: 0;
             margin: 0;
@@ -167,12 +195,19 @@ export default {
       margin-top: 20px;
     }
 
-    .halo-carousel{
+    .halo-carousel {
       .el-carousel__container {
         border-radius: 12px;
         overflow: hidden;
 
-        button{
+        img{
+          width: 100%;
+          padding: 0;
+          margin: 0;
+        }
+
+
+        button {
           border-radius: 12px;
         }
 
@@ -202,31 +237,30 @@ export default {
     }
   }
 
-  .halo-right-content{
-    .halo-card {
+  .halo-right-content {
+    div:first-child {
+      margin-top: 0;
+    }
+
+    & > div {
+      min-height: 200px;
+      width: auto;
+      background: #ffffff;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    .halo-sticky {
       top: 20px;
       position: sticky;
-      div {
-        height: 200px;
-        width: auto;
-        background: #26384E;
-        margin-top: 20px;
-        border-radius: 10px;
-      }
-
-      div:first-child {
-        margin-top: 0;
-      }
+      background: #889DB8;
     }
+
+
   }
 
 
-
 }
-
-
-
-
 
 
 </style>

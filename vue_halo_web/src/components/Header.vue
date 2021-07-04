@@ -1,159 +1,252 @@
 <template>
   <div class="m-header">
-
-    <div class="nav-link">
-
-      <ul class="nav-link-ul">
-        <li class="nav-link-item">
+    <!--下拉图标-->
+    <svg xmlns="http://www.w3.org/2000/svg" hidden>
+      <symbol id="arrow" viewbox="0 0 16 16">
+        <polyline points="4 6, 8 10, 12 6" stroke="#000" stroke-width="2" fill="transparent" stroke-linecap="round"/>
+      </symbol>
+    </svg>
+    <nav id="site-navigation" class="site-navigation" aria-label="Clickable Menu Demonstration">
+      <ul class="main-menu clicky-menu no-js">
+        <li class="hello">
           <a href="/blogs">HALO</a>
         </li>
-        <li class="nav-link-item">
-          <a href="/blog/add">发表文章</a>
+        <li>
+          <a href="#">
+            Services
+            <svg aria-hidden="true" width="16" height="16">
+              <use xlink:href="#arrow"/>
+            </svg>
+          </a>
+          <ul>
+            <li><a href="#">Design</a></li>
+            <li><a href="#">Development</a></li>
+            <li><a href="#">Accessibility</a></li>
+            <li><a href="#">Content Strategy</a></li>
+            <li><a href="#">Training</a></li>
+          </ul>
         </li>
-        <li class="nav-link-item">
-          <a href="/blog/add">归档</a>
+        <li>
+          <a href="#">
+            Portfolio
+            <svg aria-hidden="true" width="16" height="16">
+              <use xlink:href="#arrow"/>
+            </svg>
+          </a>
+          <ul>
+            <li><a href="#">Nonprofits</a></li>
+            <li><a href="#">Higher Education</a></li>
+            <li><a href="#">Associations</a></li>
+            <li><a href="#">Consultants</a></li>
+          </ul>
         </li>
-        <li class="nav-link-item">
-          <a href="/blog/add">标签</a>
+        <li>
+          <a href="#">
+            About
+            <svg aria-hidden="true" width="16" height="16">
+              <use xlink:href="#arrow"/>
+            </svg>
+          </a>
+          <ul>
+            <li><a href="#">Mission</a></li>
+            <li><a href="#">History</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
         </li>
-        <li class="nav-link-item">
-          <a href="/blog/add">友情链接</a>
+        <li>
+          <a href="#">
+            动态
+          </a>
         </li>
       </ul>
-    </div>
-
-    <div class="nav-search-box">
-      <label class="SearchBar-input Input-wrapper Input-wrapper--grey">
-        <input type="text" value="">
-
-        <button aria-label="搜索" type="button" class="Button SearchBar-searchButton Button--primary">
-          <i class="fa fa-search" aria-hidden="true"></i>
-        </button>
-
-      </label>
-      <div class="search-box">
-
-      </div>
-    </div>
-
-    <div class="nav-user-center">
-      <div class="user-avatar" v-show="hasLogin">
-        <el-avatar :size="30" :src="user.avatar"></el-avatar>
-      </div>
-      <div>{{ user.username }}</div>
-    </div>
-
-    <div v-show="!hasLogin">
-      <a href="/login">登录</a>
-    </div>
-
-    <div v-show="hasLogin">
-      <a @click="logout()">退出</a>
-    </div>
-
-
+    </nav>
   </div>
 </template>
 
 <script>
-import Login from "@/views/Login_1";
-
 export default {
-  components: {Login},
-  data() {
-    return {
-      user: {
-        username: "Halo",
-        avatar:
-            "https://cdn.jsdelivr.net/gh/halo-blog/cdn-blog-icon-a@master/spring.1ra9xtxvcxeo.svg",
-      },
-      hasLogin: false,
-    };
-  },
-  methods: {
-    logout() {
-      const _this = this;
-      _this.$axios
-          .get("/logout", {
-            headers: {
-              Authorization: localStorage.getItem("token"),
-            },
-          })
-          .then((res) => {
-            _this.$store.commit("REMOVE_INFO");
-            _this.$router.push("/login");
-          });
-      console.log("退出");
-    },
-  },
-  created() {
+  name: "Header_Accessible"
 
-    if (this.$store.getters.getUser.username) {
-      this.user.username = this.$store.getters.getUser.username;
-      this.user.avatar = this.$store.getters.getUser.avatar;
-
-      this.hasLogin = true;
-    }
-  },
-};
+}
 </script>
 
 <style scoped lang="scss">
 
-
 .m-header {
-  box-sizing: border-box;
-  padding: 10px 24px;
-  line-height: 30px;
+
   position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  background: rgba(0, 0, 0, 0.8);
-  color: #f5f5f7;
-}
+  z-index: 10;
 
-.nav-user-center {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-
-  .user-avatar {
-    span {
-      display: flex;
-      justify-content: center;
-      align-content: center;
-    }
-
-    padding-right: 10px;
+  /**
+ * Initial state, hidden off screen
+ */
+  .clicky-menu ul {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    visibility: hidden; /*[1]*/
   }
-}
 
-.nav-link {
-  display: flex;
-  justify-content: center;
-  align-content: center;
+  /**
+   * No JS fallback
+   *
+   * Triggers menus on hover rather than click. Supports keyboard navigation in modern browsers.
+   */
+  .clicky-menu.no-js li:hover > ul {
+    visibility: hidden;
+  }
 
-  ul, li {
-    padding: 0;
+  .clicky-menu.no-js li:focus-within > ul { /*[2]*/
+    visibility: visible;
+  }
+
+  /**
+   * Open/Close Menu Behavior with JS
+   */
+  .clicky-menu ul[aria-hidden="false"] {
+    visibility: visible;
+  }
+
+  /* Prevent offscreen-submenus */
+  .clicky-menu .sub-menu--right {
+    left: auto !important;
+    right: 0 !important;
+  }
+
+
+  /* Hidden SVG used for down arrows */
+  svg[hidden] {
+    display: none;
+    position: absolute;
+  }
+
+  .site-navigation {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto 1rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
+    background-color: #ffffff;
+    border-radius: 12px;
+    transform: translateY(1rem);
+  }
+
+  .clicky-menu {
+    justify-content: stretch;
     margin: 0;
-    list-style: none
+    padding: 0;
+    list-style: none;
   }
 
-  .nav-link-ul {
-    height: 36px;
-    display: flex;
-    align-items: center;
-
-    .nav-link-item {
-      margin-right: 12px;
+  @media (min-width: 540px) {
+    .clicky-menu {
+      display: flex;
     }
   }
 
-  div {
-    margin-right: 20px;
+  /* General Link & Button Styles */
+  .clicky-menu a,
+  .clicky-menu button {
+    margin: .25em;
+    padding: 1em;
+    background: transparent;
+    color: #000;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: inherit;
+    border-radius: 12px;
   }
-}
 
+  .clicky-menu a:hover,
+  .clicky-menu button:hover {
+    background: rgba(186, 222, 218, 0.64);
+  }
+
+
+  /* Top Level Items */
+  .clicky-menu > li {
+    position: relative;
+    flex: 1 1 auto;
+    display: flex;
+    justify-content: stretch;
+    flex-wrap: wrap;
+  }
+
+  .clicky-menu > li > a,
+  .clicky-menu > li > button {
+    flex: 1 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border: 0;
+    font-size: inherit;
+    line-height: 1.5;
+    cursor: pointer;
+  }
+
+  @media (min-width: 540px) {
+    .clicky-menu > li > a,
+    .clicky-menu > li > button {
+      justify-content: center;
+    }
+  }
+
+  /* Icon */
+  .clicky-menu svg {
+    width: 1em;
+    height: 1em;
+    margin-left: .5em;
+  }
+
+  .clicky-menu [aria-expanded="true"] svg {
+
+    transform: scaleY(-1);
+  }
+
+  /* Submenu Styles */
+  .clicky-menu ul {
+    min-width: 100%;
+    width: 12em;
+    margin-top: .25em;
+    padding: 0;
+    list-style: none;
+    background-color: #ffffff;
+    border-radius: 12px;
+  }
+
+  @media (min-width: 540px) {
+    .clicky-menu {
+      //box-shadow: 2px 4px 4px rgba(0, 0, 0, .2);
+    }
+  }
+
+  /* Responsive Submenu Behavior */
+  .clicky-menu ul[aria-hidden="false"] {
+    position: static;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+
+  @media (min-width: 540px) {
+    .clicky-menu ul[aria-hidden="false"] {
+      position: absolute;
+      width: auto;
+    }
+  }
+
+  /* Submenu Links */
+  .clicky-menu ul a {
+    display: block;
+    padding-top: .375em;
+    padding-bottom: .375em;
+  }
+
+  @media (min-width: 540px) {
+    .clicky-menu ul a {
+      padding: .375em 1em;
+      white-space: nowrap;
+    }
+  }
+
+}
 
 </style>

@@ -6,6 +6,9 @@
         <el-form-item label="标题" prop="title">
           <el-input v-model="editForm.title"></el-input>
         </el-form-item>
+        <el-form-item label="封面" prop="description">
+          <el-input type="textarea" v-model="editForm.blogCover"></el-input>
+        </el-form-item>
         <el-form-item label="摘要" prop="description">
           <el-input type="textarea" v-model="editForm.description"></el-input>
         </el-form-item>
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-import Header from "../components/Header.vue";
+import Header from "../components/discard/Header_1.vue";
 
 export default {
   name: "BlogEdit",
@@ -33,6 +36,7 @@ export default {
         id: null,
         title: "",
         description: "",
+        blogCover:"",
         content: "",
       },
       rules: {
@@ -59,6 +63,7 @@ export default {
         const blog = res.data.data;
         _this.editForm.id = blog.id;
         _this.editForm.title = blog.title;
+        _this.editForm.blogCover = blog.blogCover;
         _this.editForm.description = blog.description;
         _this.editForm.content = blog.content;
       });
@@ -94,4 +99,14 @@ export default {
 </script>
 
 <style>
+
+.m-content{
+  margin: 40px auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+
+}
 </style>

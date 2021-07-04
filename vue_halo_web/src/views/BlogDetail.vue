@@ -1,19 +1,32 @@
 <template>
   <div class="m-container">
     <Header></Header>
-    <div class="m-blog">
-      <h2>{{ blog.title }}</h2>
-      <el-link icon="el-icon-edit" v-if="ownBlog">
-        <router-link :to="{name: 'BlogEdit', params: {blogId: blog.id}}">编辑</router-link>
-      </el-link>
-      <el-divider></el-divider>
-      <div class="content markdown-body" v-html="blog.content"></div>
+
+    <div class="halo-blog">
+
+      <div class="m-blog">
+        <h2>{{ blog.title }}</h2>
+        <p>{{ blog.userId }}</p>
+        <el-link icon="el-icon-edit" v-if="ownBlog">
+          <router-link :to="{name: 'BlogEdit', params: {blogId: blog.id}}">编辑</router-link>
+        </el-link>
+        <el-divider></el-divider>
+        <div>
+          描述：{{ blog.description }}
+        </div>
+        <el-divider></el-divider>
+        <div class="content markdown-body" v-html="blog.content"></div>
+      </div>
+
+      <div class="halo-blog-catalogue"></div>
+
     </div>
+
   </div>
 </template>
 <script>
 import "github-markdown-css/github-markdown.css"; // 然后添加样式markdown-body
-import Header from "@/components/Header";
+import Header from "@/components/discard/Header_1";
 
 export default {
   name: "BlogDetail",
@@ -54,11 +67,34 @@ export default {
 };
 </script>
 
-<style scoped>
-.m-blog {
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  width: 100%;
-  min-height: 700px;
-  padding: 30px;
+<style scoped lang="scss">
+.halo-blog {
+  margin: 40px auto;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+
+  .m-blog {
+    padding: 30px;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    border-radius: 12px;
+    width: 65%;
+    max-width: 1200px;
+    margin-right: 25px;
+  }
+
+  .halo-blog-catalogue {
+    border-radius: 12px;
+    background: #99CCCC;
+    width: 20%;
+    height: 500px;
+
+  }
+
 }
+
+
 </style>
