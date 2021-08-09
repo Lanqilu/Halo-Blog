@@ -1,5 +1,5 @@
 <template>
-  <div class="m-loginnew">
+  <div class="m-login">
     <div class="container ">
       <!-- Sign Up -->
       <div class="container__form container--signup">
@@ -39,9 +39,8 @@
 </template>
 
 <script>
-
-
 export default {
+  name:"Login",
   data() {
     return {
       ruleForm: {
@@ -52,23 +51,23 @@ export default {
   },
   methods: {
     submitForm(formName) {
-          const _this = this;
-          this.$axios.post("/login", this.ruleForm).then((res) => {
-            // 获取 JWT
-            const jwt = res.headers["authorization"];
-            // 获取用户信息
-            const userInfo = res.data.data;
+      const _this = this;
+      this.$axios.post("/login", this.ruleForm).then((res) => {
+        // 获取 JWT
+        const jwt = res.headers["authorization"];
+        // 获取用户信息
+        const userInfo = res.data.data;
 
-            // 赋值到全局store
-            _this.$store.commit("SET_TOKEN", jwt);
-            _this.$store.commit("SET_USERINFO", userInfo);
+        // 赋值到全局store
+        _this.$store.commit("SET_TOKEN", jwt);
+        _this.$store.commit("SET_USERINFO", userInfo);
 
-            // 登录成功
-            // console.log("登录成功+++++++++++++++++++++");
-            // 跳转页面
-            _this.$router.push("/blogs");
-            // console.log("登录成功----------------------");
-          });
+        // 登录成功
+        // console.log("登录成功+++++++++++++++++++++");
+        // 跳转页面
+        _this.$router.push("/home");
+        // console.log("登录成功----------------------");
+      });
     },
     signInBtn() {
       let container = document.querySelector(".container");
@@ -80,11 +79,10 @@ export default {
     },
   },
 }
-
 </script>
 
-<style>
-.m-loginnew {
+<style scoped>
+.m-login {
   /* COLORS */
   --white: #e9e9e9;
   --gray: #333;
@@ -92,21 +90,15 @@ export default {
   --lightblue: #008997;
 
   /* RADII */
-  --button-radius: 0.7rem;
+  --button-radius: 0.8rem;
 
   /* SIZES */
   --max-width: 758px;
   --max-height: 420px;
 
   font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-  Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   align-items: center;
-  background-color: var(--white);
-  background: url("https://cdn.jsdelivr.net/gh/halo-blog/cdn-blog-img-e@master/macos.6z1mshl4twk0.svg");
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: var(--white) url("https://cdn.jsdelivr.net/gh/halo-blog/cdn-blog-img-e@master/macos.6z1mshl4twk0.svg") no-repeat fixed center;
   background-size: cover;
   display: grid;
   height: 100vh;
@@ -114,9 +106,9 @@ export default {
 }
 
 .form__title {
-  font-weight: 300;
-  margin: 0;
-  margin-bottom: 1.25rem;
+  font-weight: 500;
+  font-size: 2rem;
+  margin: 0 0 2rem;
 }
 
 .link {
@@ -185,11 +177,7 @@ export default {
 }
 
 .overlay {
-  background-color: var(--lightblue);
-  background: url("https://cdn.jsdelivr.net/gh/halo-blog/cdn-blog-img-e@master/macos.6z1mshl4twk0.svg");
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: var(--lightblue) url("https://cdn.jsdelivr.net/gh/halo-blog/cdn-blog-img-e@master/macos.6z1mshl4twk0.svg") no-repeat fixed center;
   background-size: cover;
   height: 100%;
   left: -100%;
@@ -237,11 +225,11 @@ export default {
 .btn {
   background-color: var(--blue);
   background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%);
-  border-radius: 20px;
+  border-radius: var(--button-radius);
   border: 1px solid var(--blue);
   color: var(--white);
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: bold;
   letter-spacing: 0.1rem;
   padding: 0.9rem 4rem;
@@ -250,7 +238,7 @@ export default {
 }
 
 .form > .btn {
-  margin-top: 1.5rem;
+  margin-top: 2rem;
 }
 
 .btn:active {
@@ -273,11 +261,16 @@ export default {
 }
 
 .input {
+  border-radius: 0.2rem;
   background-color: #fff;
   border: none;
   padding: 0.9rem 0.9rem;
   margin: 0.5rem 0;
   width: 100%;
+}
+
+.input:focus-visible{
+  outline: 0;
 }
 
 @keyframes show {
@@ -293,7 +286,5 @@ export default {
     z-index: 5;
   }
 }
-
-
 </style>
 

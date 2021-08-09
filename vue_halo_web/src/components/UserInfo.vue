@@ -1,7 +1,6 @@
 <template>
   <div class="halo-user-info">
 
-
     <div class="halo-has-login" v-show="hasLogin">
       <div class="halo-user-avatar">
         <el-avatar shape="square" :size="120" :src="user.avatar"></el-avatar>
@@ -62,11 +61,9 @@ export default {
     },
   },
   created() {
-
     if (this.$store.getters.getUser.username) {
       this.user.username = this.$store.getters.getUser.username;
       this.user.avatar = this.$store.getters.getUser.avatar;
-
       this.hasLogin = true;
     }
   },

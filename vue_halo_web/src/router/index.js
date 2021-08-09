@@ -13,7 +13,7 @@ const routes = [
     {
         path: '/',
         name: 'Index',
-        redirect: {name: 'Blogs'}
+        redirect: {name: 'Home'}
     },
     {
         path: '/404',
@@ -31,10 +31,10 @@ const routes = [
         component: Register
     },
     {
-        path: '/blogs',
-        name: 'Blogs',
+        path: '/home',
+        name: 'Home',
         // 懒加载
-        component: () => import('../views/Blogs.vue')
+        component: () => import('../views/Home.vue')
     }, {
         path: '/blog/add', // 注意放在 /blog/:blogId 之前
         name: 'BlogAdd',

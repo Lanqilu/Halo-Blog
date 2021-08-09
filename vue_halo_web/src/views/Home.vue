@@ -5,7 +5,7 @@
       <div class="halo-left-content">
         <!-- 幻灯片 -->
         <div class="halo-carousel">
-          <el-carousel height="300px" interval="3500">
+          <el-carousel height="300px" :interval="4000">
             <el-carousel-item v-for="item in blogs" :key="item.blogId">
               <img class="post_bg"
                    :src=item.blogCover
@@ -31,8 +31,6 @@
                 <router-link :to="{name: 'BlogDetail', params: {blogId: item.id}}">{{ item.title }}</router-link>
               </h3>
               <p class="halo-blog-text">{{ item.description }}</p>
-
-
             </div>
 
           </div>
@@ -61,21 +59,20 @@
       </div>
     </div>
 
-    <!--    <Footer></Footer>-->
 
+    <!--    <Footer></Footer>-->
   </div>
 
 </template>
 
 <script>
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Swiper from "@/components/MySwiper";
-import UserInfo from "@/components/UserInfo";
+import Header from "../components/Headers/HomeHeader.vue";
+import Footer from "../components/Footer.vue";
+import UserInfo from "../components/UserInfo.vue";
 
 export default {
-  name: "Blog.vue",
-  components: {UserInfo, Footer, Header, Swiper},
+  name: "Home",
+  components: {UserInfo, Footer, Header},
   data() {
     return {
       currentDate: new Date(),
@@ -200,7 +197,7 @@ export default {
         border-radius: 12px;
         overflow: hidden;
 
-        img{
+        img {
           width: 100%;
           padding: 0;
           margin: 0;
@@ -255,12 +252,6 @@ export default {
       position: sticky;
       background: #889DB8;
     }
-
-
   }
-
-
 }
-
-
 </style>

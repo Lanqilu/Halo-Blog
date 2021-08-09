@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import Header from "../components/discard/Header_1.vue";
+import Header from "../components/Headers/DefaultHeader.vue";
 
 export default {
   name: "BlogEdit",
@@ -74,6 +74,7 @@ export default {
       const _this = this;
       this.$refs.editForm.validate((valid) => {
         if (valid) {
+          console.log(this.editForm)
           this.$axios
               .post("/blog/edit", this.editForm, {
                 headers: {

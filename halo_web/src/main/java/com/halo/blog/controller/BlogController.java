@@ -67,5 +67,4 @@ public class BlogController {
 
         return Result.success(null);
     }
-
 }

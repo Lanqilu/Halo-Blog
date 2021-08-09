@@ -9,35 +9,35 @@
     <nav id="site-navigation" class="site-navigation" aria-label="Clickable Menu Demonstration">
       <ul class="main-menu clicky-menu no-js">
         <li class="hello">
-          <a href="/blogs">HALO</a>
+          <a href="/home">HALO</a>
         </li>
         <li>
           <a href="#">
-            Services
+            待定
             <svg aria-hidden="true" width="16" height="16">
               <use xlink:href="#arrow"/>
             </svg>
           </a>
           <ul>
-            <li><a href="#">Design</a></li>
-            <li><a href="#">Development</a></li>
-            <li><a href="#">Accessibility</a></li>
-            <li><a href="#">Content Strategy</a></li>
-            <li><a href="#">Training</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
           </ul>
         </li>
         <li>
           <a href="#">
-            Portfolio
+            待定
             <svg aria-hidden="true" width="16" height="16">
               <use xlink:href="#arrow"/>
             </svg>
           </a>
           <ul>
-            <li><a href="#">Nonprofits</a></li>
-            <li><a href="#">Higher Education</a></li>
-            <li><a href="#">Associations</a></li>
-            <li><a href="#">Consultants</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
           </ul>
         </li>
         <li>
@@ -48,9 +48,9 @@
             </svg>
           </a>
           <ul>
-            <li><a href="#">Mission</a></li>
-            <li><a href="#">History</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
+            <li><a href="#">待定</a></li>
           </ul>
         </li>
         <li>

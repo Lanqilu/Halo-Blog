@@ -3,14 +3,17 @@
     <Header></Header>
 
     <div class="halo-blog">
-
       <div class="m-blog">
-        <h2>{{ blog.title }}</h2>
-        <p>{{ blog.userId }}</p>
-        <el-link icon="el-icon-edit" v-if="ownBlog">
-          <router-link :to="{name: 'BlogEdit', params: {blogId: blog.id}}">编辑</router-link>
-        </el-link>
+        <div class="halo-blog-title">
+          <h1>{{ blog.title }}</h1>
+          <el-link icon="el-icon-edit" v-if="ownBlog">
+            <router-link :to="{name: 'BlogEdit', params: {blogId: blog.id}}">编辑</router-link>
+          </el-link>
+          <span>{{ blog.userId }}</span>
+        </div>
+
         <el-divider></el-divider>
+
         <div>
           描述：{{ blog.description }}
         </div>
@@ -26,7 +29,8 @@
 </template>
 <script>
 import "github-markdown-css/github-markdown.css"; // 然后添加样式markdown-body
-import Header from "@/components/discard/Header_1";
+import Header from "../components/Headers/DefaultHeader.vue";
+// import MarkdownIt from "markdown-it";
 
 export default {
   name: "BlogDetail",
@@ -41,30 +45,59 @@ export default {
         description: "",
         content: "",
       },
+      msg: "hello",
       ownBlog: false,
     };
   },
+
   methods: {
+
+
     getBlog() {
       const blogId = this.$route.params.blogId;
-      const _this = this;
       this.$axios.get("/blog/" + blogId).then((res) => {
-        console.log(res);
-        console.log(res.data.data);
-        _this.blog = res.data.data;
-        var MarkdownIt = require("markdown-it"),
-            md = new MarkdownIt();
-        var result = md.render(_this.blog.content);
-        _this.blog.content = result;
+        this.blog = {...this.blog, ...res.data.data};
+        const MarkdownIt = require("markdown-it"), md = new MarkdownIt();
+        this.blog.content = md.render(this.blog.content);
         // 判断是否是自己的文章，能否编辑
-        _this.ownBlog = _this.blog.userId === _this.$store.getters.getUser.id;
+        this.ownBlog = this.blog.userId === this.$store.getters.getUser.id;
       });
+
+      // this.$axios.post("/user/userId/"+userId).then((res)=>{
+      //   this.user = res.data.data
+      //   console.log(this.user)
+      // })
+
+    },
+
+    // 获取作者信息
+    getAuthorInfo() {
+      // this.$axios.post("/user/userId/"+this.blog.userId).then((res)=>{
+      //   this.user = res.data.data
+      //   console.log(this.user)
+      // })
     },
   },
+
+  computed(){
+
+
+  },
+
   created() {
-    this.getBlog();
+    // this.getBlog();
+    const blogId = this.$route.params.blogId;
+    this.$axios.get("/blog/" + blogId).then((res) => {
+      this.blog = {...this.blog, ...res.data.data};
+      const MarkdownIt = require("markdown-it"), md = new MarkdownIt();
+      this.blog.content = md.render(this.blog.content);
+      // 判断是否是自己的文章，能否编辑
+      this.ownBlog = this.blog.userId === this.$store.getters.getUser.id;
+    });
+
   },
 };
+
 </script>
 
 <style scoped lang="scss">
