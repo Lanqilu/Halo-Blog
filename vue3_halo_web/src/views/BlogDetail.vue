@@ -29,7 +29,7 @@
         <el-divider></el-divider>
 
 
-        <div class="like" @click.once="giveLike()">点赞数：{{blog.info.blogLike}}</div>
+        <div class="like" @click.once="giveLike()">点赞数：{{ blog.info.blogLike }}</div>
       </div>
 
       <div class="halo-blog-catalogue"></div>
@@ -97,7 +97,7 @@ export default {
             type: 'success'
           })
           blog.info.blogLike = res.data.data
-        }else {
+        } else {
           ElMessage(res.data.msg);
         }
       })

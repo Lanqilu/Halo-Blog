@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <!--        <Home/>-->
+<!--    <SetUpTest></SetUpTest>-->
 
-<!--        <Test></Test>-->
-    <router-view/>
+<!--    <MarkdownEditorTest></MarkdownEditorTest>-->
+        <router-view/>
     <!--    <UserInfo></UserInfo>-->
   </div>
 </template>
@@ -12,9 +13,11 @@
 import Home from "./views/Home.vue";
 import Test from "./views/Test.vue";
 import UserInfo from "./components/Cards/UserInfo.vue";
+import MarkdownEditorTest from "./views/Test/MarkdownEditorTest.vue";
+import SetUpTest from "./views/Test/SetUpTest.vue";
 
 export default {
-  components: {Home, Test, UserInfo},
+  components: {Home, Test, UserInfo,MarkdownEditorTest,SetUpTest},
   setup() {
 
 
