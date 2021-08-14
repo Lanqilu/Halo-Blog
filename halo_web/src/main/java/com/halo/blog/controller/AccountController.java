@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
 
 /**
  * @author Halo
@@ -38,33 +39,37 @@ public class AccountController {
     @PostMapping("/register")
     public Result register(@RequestBody User userVO) {
 
-        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
-        queryWrapper.and(wrapper -> wrapper.eq("username", userVO.getUsername()).or().eq("email", userVO.getEmail()));
+        QueryWrapper<User> userNameQueryWrapper = new QueryWrapper<>();
+        QueryWrapper<User> emailQueryWrapper = new QueryWrapper<>();
 
-        User user = userService.getOne(queryWrapper);
+        userNameQueryWrapper.eq("username", userVO.getUsername());
+        User user = userService.getOne(userNameQueryWrapper);
         if (user != null) {
-            System.out.println("用户名或邮箱已被注册");
-            return Result.fail("用户名或邮箱已被注册");
+            return Result.fail("用户名已被注册");
+        }
+
+        emailQueryWrapper.eq("email", userVO.getEmail());
+        User email = userService.getOne(emailQueryWrapper);
+        if (email != null) {
+            return Result.fail("邮箱已被注册");
         }
 
         user = new User();
         user.setUsername(userVO.getUsername());
         user.setPassword(SecureUtil.md5(userVO.getPassword()));
         user.setEmail(userVO.getEmail());
+        user.setCreated(LocalDateTime.now());
 
         userService.save(user);
 
         // TODO 发送邮件，进行账号激活
 
-        return Result.success("注册成功");
+        return Result.success(200, "注册成功", user);
     }
 
     @ApiOperation(value = "用户登录", notes = "用户登录")
     @PostMapping("/login")
     public Result login(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response) {
-
-//        User user = userService.getOne(new QueryWrapper<User>().eq("username", loginDto.getUsername()));
-//        Assert.notNull(user, "用户不存在");
 
         User user = userService.getOne(new QueryWrapper<User>().eq("email", loginDto.getEmail()));
         Assert.notNull(user, "用户不存在");
@@ -80,10 +85,29 @@ public class AccountController {
         response.setHeader("Authorization", jwt);
         response.setHeader("Access-control-Expose-Headers", "Authorization");
 
-//        System.out.println("用户"+user.getUsername()+"登录成功");
-
-
         return Result.success(MapUtil.builder()
+                .put("id", user.getId())
+                .put("username", user.getUsername())
+                .put("avatar", user.getAvatar())
+                .put("email", user.getEmail())
+                .map()
+        );
+    }
+
+    @ApiOperation(value = "管理员登录", notes = "管理员登录")
+    @PostMapping("/login/admin")
+    public Result loginAdmin(@Validated @RequestBody LoginDto loginDto, HttpServletResponse response) {
+
+        User user = userService.getOne(new QueryWrapper<User>().eq("email", loginDto.getEmail()));
+        Assert.notNull(user, "用户不存在");
+        // 密码是否正确
+        if (!user.getPassword().equals(SecureUtil.md5(loginDto.getPassword()))) {
+            return Result.fail("密码不正确");
+        }
+        // 生成 JWT
+        String jwt = jwtUtil.generateToken(user.getId());
+        return Result.success(MapUtil.builder()
+                .put("token", jwt)
                 .put("id", user.getId())
                 .put("username", user.getUsername())
                 .put("avatar", user.getAvatar())

@@ -1,8 +1,7 @@
 package com.halo.blog.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
@@ -13,14 +12,6 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author 关注公众号：MarkerHub
- * @since 2021-07-02
- */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
@@ -35,7 +26,7 @@ public class Blog implements Serializable {
     private Long userId;
 
     @NotBlank(message = "标题不能为空")
-    private String title;
+    private String blogTitle;
 
     private String description;
 
@@ -45,12 +36,30 @@ public class Blog implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime created;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime updated;
+    private LocalDateTime createTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
 
     private String blogCover;
 
     private Integer status;
 
+    private Integer blogLike;
+
+    private String tagUid;
+
+    private Integer collectCount;
+
+    private String blogSortUid;
+
+    private Integer isPublish;
+
+    private Integer isOpenComment;
+
+    private Integer isOriginal;
+
+    @TableLogic
+    private Integer deleted;
 
 }
