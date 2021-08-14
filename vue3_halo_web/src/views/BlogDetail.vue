@@ -5,18 +5,22 @@
     <div class="halo-blog">
       <div class="m-blog">
         <div class="halo-blog-title">
-
           <h1>{{ blog.info.title }}</h1>
-
-          <el-link icon="el-icon-edit" v-if="blog.isOwnBlog">
-            <router-link :to="{name: 'BlogEdit', params: {blogId: blog.info.id}}">编辑</router-link>
-          </el-link>
-
-          <div class="author-info">
-            <img :src="blog.author.avatar" alt="">
-            <span>{{ blog.author.username }}</span>
+          <div class="edit">
+            <el-link icon="el-icon-edit" v-if="blog.isOwnBlog">
+              <router-link :to="{name: 'BlogEdit', params: {blogId: blog.info.id}}">编辑</router-link>
+            </el-link>
           </div>
+        </div>
 
+        <div class="author">
+          <div class="avatar">
+            <img :src="blog.author.avatar" alt="">
+          </div>
+          <div class="author-info">
+            <div>{{ blog.author.username }}</div>
+            <div> {{ blog.author.email }}</div>
+          </div>
         </div>
 
         <el-divider></el-divider>
@@ -67,13 +71,14 @@ export default {
       isOwnBlog: false,
       author: {
         avatar: "",
-        username: "默认名称"
+        username: "默认名称",
+        email: ""
       },
     })
 
     const blogId = route.params.blogId;
-    onMounted(async () => {
 
+    onMounted(async () => {
 
       let blogDetailRes = await BlogDetail(blogId);
       blog.info = {...blog.info, ...blogDetailRes.data.data};
@@ -88,6 +93,7 @@ export default {
       blog.author = authorInfoRes.data.data
     })
 
+    // 点赞
     function giveLike() {
       axios.post(`http://localhost:8088/blog/like/${blogId}`).then((res) => {
         console.log(res)
@@ -131,10 +137,30 @@ export default {
     max-width: 1200px;
     margin-right: 25px;
 
-    .author-info {
+    .halo-blog-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+
+    .author {
+      margin-top: 15px;
+      display: flex;
+      justify-content: flex-start;
+
       img {
-        max-height: 3rem;
+        max-height: 3.5rem;
+        border-radius: 6px;
       }
+
+      .author-info {
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+
     }
 
     .like {

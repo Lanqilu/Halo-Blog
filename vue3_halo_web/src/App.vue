@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <!--        <Home/>-->
-<!--    <SetUpTest></SetUpTest>-->
+    <!--    <SetUpTest></SetUpTest>-->
 
-<!--    <MarkdownEditorTest></MarkdownEditorTest>-->
-        <router-view/>
+    <!--    <MarkdownEditorTest></MarkdownEditorTest>-->
+    <router-view/>
     <!--    <UserInfo></UserInfo>-->
   </div>
 </template>
@@ -17,7 +17,7 @@ import MarkdownEditorTest from "./views/Test/MarkdownEditorTest.vue";
 import SetUpTest from "./views/Test/SetUpTest.vue";
 
 export default {
-  components: {Home, Test, UserInfo,MarkdownEditorTest,SetUpTest},
+  components: {Home, Test, UserInfo, MarkdownEditorTest, SetUpTest},
   setup() {
 
 
@@ -43,5 +43,15 @@ a, a:link, a:visited, a:hover, a:active {
   rgba(161, 102, 171, .1) 44%, rgba(80, 115, 184, .1) 58%,
   rgba(16, 152, 173, .1) 72%, rgba(7, 179, 155, .1) 86%,
   rgba(109, 186, 130, .1));
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  /* currentColor 是一个变量，这个变量的值是当前元素的 color 值 */
+  /* 如果当前元素没有在 CSS 里显示地指定一个 color 值，那它的颜色值就遵从 CSS 规则，从父元素继承而来*/
+  fill: currentColor;
+  overflow: hidden;
 }
 </style>

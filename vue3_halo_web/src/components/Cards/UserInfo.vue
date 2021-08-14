@@ -1,21 +1,30 @@
 <template>
   <div class="halo-user-info">
-    <div class="halo-has-login" v-show="hasLogin">
-      <div class="halo-user-avatar">
-        <el-avatar shape="square" :size="120" :src="user.avatar"></el-avatar>
-        <div class="halo-username">{{ user.username }}</div>
+    <!-- 如果登录展示该 div -->
+    <div class="halo-has-login" v-show="user.hasLogin">
+      <div class="halo-user-meta">
+        <div class="halo-user-avatar">
+          <el-avatar shape="square" :size="120" :src="user.avatar"></el-avatar>
+          <div class="halo-username">{{ user.username }}</div>
+        </div>
+        <div class="halo-user-button">
+          <div class="halo-personal-homepage" @click="publishArticle()">
+            发表文章
+          </div>
+          <div class="logout" @click="logout()">
+            退出
+          </div>
+        </div>
       </div>
 
-      <div class="halo-personal-homepage" @click="publishArticle()">
-        发表文章
-      </div>
-      <div class="logout" @click="logout()">
-        退出
-      </div>
-
+<!--      <div class="halo-user-info">-->
+      <!--        文章数目：{{ user.articleCount }}-->
+      <!--      </div>-->
     </div>
 
-    <div class="halo-has-not-login" v-show="!hasLogin">
+
+    <!-- 如果未登录展示该 div -->
+    <div class="halo-has-not-login" v-if="!user.hasLogin">
       <div class="login">
         <a href="/login">登 录</a>
       </div>
@@ -23,8 +32,6 @@
         <a href="/register">注 册</a>
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -34,10 +41,11 @@ import {onMounted, reactive, ref} from "vue";
 import {useStore} from "vuex";
 import axios from "axios";
 import {useRouter} from 'vue-router';
+import {getAuthorArticle} from "../../api";
 
 export default {
   name: "UserInfo",
-  setup() {
+  setup: function () {
 
     const store = useStore()
     const router = useRouter()
@@ -45,16 +53,29 @@ export default {
     let user = reactive({
       username: "Halo",
       avatar: "https://cdn.jsdelivr.net/gh/halo-blog/cdn-blog-icon-a@master/spring.1ra9xtxvcxeo.svg",
+      userId: 0,
+      hasLogin: false,
+      articleCount: 0
     })
-    let hasLogin = ref(false)
+
+
+    onMounted(() => {
+      getAuthorArticleCount()
+    })
+
+    // 获取该作者的文章数目
+    async function getAuthorArticleCount() {
+      let res = await getAuthorArticle(user.userId)
+      user.articleCount = res.data.data
+    }
 
     // 判断是否登录
     if (store.getters.getUser) {
       user.username = store.getters.getUser.username;
       user.avatar = store.getters.getUser.avatar;
-      hasLogin = true;
+      user.userId = store.getters.getUser.id;
+      user.hasLogin = true;
     }
-
 
     function logout() {
       axios.get("http://localhost:8088/logout", {
@@ -73,7 +94,6 @@ export default {
 
     return {
       user,
-      hasLogin,
       logout,
       publishArticle
     }
@@ -92,10 +112,10 @@ export default {
   background: #ffffff;
   min-height: 200px;
   border-radius: 10px;
+
   display: flex;
   justify-content: center;
-  align-content: center;
-
+  align-items: center;
 
   .halo-has-not-login {
     width: 100%;
@@ -142,73 +162,45 @@ export default {
   }
 
   .halo-has-login {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
 
-    .halo-user-avatar {
-      align-self: center;
-      padding: 30px 30px 10px 30px;
-      grid-row-start: 1;
-      grid-row-end: 4;
-      grid-column-start: 1;
-      grid-column-end: 2;
+    .halo-user-meta {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
 
-      .halo-username {
-        text-align: center;
-        padding: 5px;
-        font-size: 1.1rem;
+      span.el-avatar.el-avatar--square {
+        border-radius: 12px;
       }
 
-    }
-
-
-    .halo-personal-homepage, .logout {
-      background: rgba(186, 222, 218, 0.64);
-      cursor: pointer;
-
-      height: 50px;
-      width: 100px;
-      border-radius: 12px;
-      line-height: 50px;
-      text-align: center;
-
-      &:hover {
-        background: rgba(186, 196, 222, 0.64);
+      .halo-user-avatar {
+        .halo-username {
+          text-align: center;
+        }
       }
 
-
-    }
-
-    .halo-personal-homepage {
-      grid-row-start: 1;
-      grid-row-end: 2;
-      grid-column-start: 2;
-      grid-column-end: 3;
-
-      height: 50px;
-      width: 100px;
-      border-radius: 12px;
-      line-height: 50px;
-      text-align: center;
-
-      align-self: end;
-      margin-bottom: 20px;
-    }
-
-    .logout {
-      grid-row-start: 2;
-      grid-row-end: 4;
-      grid-column-start: 2;
-      grid-column-end: 3;
-
-      align-self: start;
-      margin-top: 10px;
-    }
+      .halo-user-button {
+        margin-left: 20px;
+        display: flex;
+        flex-direction: column;
 
 
-    span.el-avatar.el-avatar--square {
-      border-radius: 12px;
+        .halo-personal-homepage, .logout {
+          background: rgba(186, 222, 218, 0.64);
+          cursor: pointer;
+
+          height: 50px;
+          width: 100px;
+          border-radius: 12px;
+          line-height: 50px;
+          text-align: center;
+
+          margin-bottom: 20px;
+
+          &:hover {
+            background: rgba(186, 196, 222, 0.64);
+          }
+        }
+      }
     }
 
   }

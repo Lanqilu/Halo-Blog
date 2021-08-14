@@ -1,13 +1,17 @@
 <template>
   <div>
-    <!--    <Header></Header>-->
-    <div class="halo-body">
 
+    <index-banner/>
+
+    <div class="halo-body">
       <div class="halo-left-content">
         <!-- 幻灯片 -->
         <div class="halo-carousel">
-          <el-carousel :interval="3500" height="230px">
-            <el-carousel-item v-for="item in homeData.blogs" :key="item.blogId">
+          <el-carousel :interval="5000" height="230px">
+            <el-carousel-item v-for="item in carouselData.blogs"
+                              :key="item.id"
+                              @click.prevent="toBlogDetail(item.id)">
+              <div class="halo-carousel-title">{{ item.title }}</div>
               <img class="post_bg"
                    :src=item.blogCover
                    :alt=item.title>
@@ -27,7 +31,7 @@
                    :alt=item.title>
               <p class="halo-blog-created">{{ item.created }}</p>
             </div>
-            <div class="halo-blog-content" >
+            <div class="halo-blog-content">
               <h3 class="halo-blog-title">
                 {{ item.title }}
               </h3>
@@ -46,7 +50,6 @@
                        @current-change="changePage"
         ></el-pagination>
       </div>
-
       <div class="halo-right-content">
         <div>
           <UserInfo></UserInfo>
@@ -58,21 +61,26 @@
 
         </div>
       </div>
-
     </div>
 
-    <!--    <Footer></Footer>-->
+    <!-- 回到顶部 -->
+    <el-backtop  :bottom="100">
+
+    </el-backtop>
+
   </div>
 </template>
 
 <script>
 import homeData from "../hooks/homeData";
+import carouselData from "../hooks/carouselData";
 import UserInfo from "../components/Cards/UserInfo.vue"
 import {useRouter} from "vue-router";
+import IndexBanner from "../components/Banner/IndexBanner.vue";
 
 export default {
   name: "Home",
-  components: {UserInfo},
+  components: {UserInfo, IndexBanner},
   setup() {
 
     const router = useRouter()
@@ -81,10 +89,10 @@ export default {
       router.push({name: 'BlogDetail', params: {blogId: id}})
     }
 
-
     return {
       toBlogDetail,
       ...homeData(),
+      ...carouselData()
     }
   }
 }
@@ -142,15 +150,11 @@ export default {
             line-height: 160%;
           }
 
-
         }
 
         min-height: 100px;
         display: flex;
         overflow: hidden;
-
-        // 测试样式
-        //border: solid 2px #ED5565;
 
         .halo-blog-img {
           padding: 0;
@@ -183,6 +187,16 @@ export default {
     }
 
     .halo-carousel {
+      cursor: pointer;
+
+      .halo-carousel-title {
+        margin: 15px;
+        padding: 0 5px;
+        position: absolute;
+        background: #ffffff;
+        border-radius: 3px;
+      }
+
       .el-carousel__container {
         border-radius: 12px;
         overflow: hidden;
